@@ -7,9 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		206B9D9618B159540085825B /* RMFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 206B9D9518B159540085825B /* RMFile.m */; };
+		206B9D9918B1595F0085825B /* RMTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 206B9D9818B1595F0085825B /* RMTrack.m */; };
+		206B9D9C18B1596F0085825B /* RMVideoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 206B9D9B18B1596F0085825B /* RMVideoTrack.m */; };
+		206B9D9F18B1597F0085825B /* RMAudioTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 206B9D9E18B1597F0085825B /* RMAudioTrack.m */; };
+		206B9DA218B159960085825B /* RMMP4File.m in Sources */ = {isa = PBXBuildFile; fileRef = 206B9DA118B159960085825B /* RMMP4File.m */; };
+		206B9DA518B159A10085825B /* RMMKVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 206B9DA418B159A10085825B /* RMMKVFile.m */; };
+		206B9DAA18B15CB30085825B /* RMVideoRemuxOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 206B9DA918B15CB30085825B /* RMVideoRemuxOperation.m */; };
 		20855F7A18AEC708008CCD95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20855F7918AEC708008CCD95 /* Foundation.framework */; };
 		20855F7D18AEC708008CCD95 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 20855F7C18AEC708008CCD95 /* main.m */; };
-		20855F8118AEC708008CCD95 /* remuxer.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 20855F8018AEC708008CCD95 /* remuxer.1 */; };
+		20855F8918AECB80008CCD95 /* RMRemuxerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20855F8818AECB80008CCD95 /* RMRemuxerController.m */; };
+		20855F8C18AED1D3008CCD95 /* ECTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 20855F8B18AED1D3008CCD95 /* ECTask.m */; };
+		75BA015ADB36442584B4E5C7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D627129A0BC4529B604DB38 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -19,18 +28,37 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				20855F8118AEC708008CCD95 /* remuxer.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		206B9D9418B159540085825B /* RMFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMFile.h; sourceTree = "<group>"; };
+		206B9D9518B159540085825B /* RMFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMFile.m; sourceTree = "<group>"; };
+		206B9D9718B1595F0085825B /* RMTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMTrack.h; sourceTree = "<group>"; };
+		206B9D9818B1595F0085825B /* RMTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMTrack.m; sourceTree = "<group>"; };
+		206B9D9A18B1596F0085825B /* RMVideoTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMVideoTrack.h; sourceTree = "<group>"; };
+		206B9D9B18B1596F0085825B /* RMVideoTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMVideoTrack.m; sourceTree = "<group>"; };
+		206B9D9D18B1597F0085825B /* RMAudioTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMAudioTrack.h; sourceTree = "<group>"; };
+		206B9D9E18B1597F0085825B /* RMAudioTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMAudioTrack.m; sourceTree = "<group>"; };
+		206B9DA018B159960085825B /* RMMP4File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMP4File.h; sourceTree = "<group>"; };
+		206B9DA118B159960085825B /* RMMP4File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMMP4File.m; sourceTree = "<group>"; };
+		206B9DA318B159A10085825B /* RMMKVFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMKVFile.h; sourceTree = "<group>"; };
+		206B9DA418B159A10085825B /* RMMKVFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMMKVFile.m; sourceTree = "<group>"; };
+		206B9DA818B15CB30085825B /* RMVideoRemuxOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMVideoRemuxOperation.h; sourceTree = "<group>"; };
+		206B9DA918B15CB30085825B /* RMVideoRemuxOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMVideoRemuxOperation.m; sourceTree = "<group>"; };
+		206B9DAB18B1654F0085825B /* ColorMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorMacros.h; sourceTree = "<group>"; };
 		20855F7618AEC708008CCD95 /* remuxer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = remuxer; sourceTree = BUILT_PRODUCTS_DIR; };
 		20855F7918AEC708008CCD95 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		20855F7C18AEC708008CCD95 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		20855F7F18AEC708008CCD95 /* remuxer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "remuxer-Prefix.pch"; sourceTree = "<group>"; };
-		20855F8018AEC708008CCD95 /* remuxer.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = remuxer.1; sourceTree = "<group>"; };
+		20855F8718AECB80008CCD95 /* RMRemuxerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMRemuxerController.h; sourceTree = "<group>"; };
+		20855F8818AECB80008CCD95 /* RMRemuxerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMRemuxerController.m; sourceTree = "<group>"; };
+		20855F8A18AED1D3008CCD95 /* ECTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECTask.h; sourceTree = "<group>"; };
+		20855F8B18AED1D3008CCD95 /* ECTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECTask.m; sourceTree = "<group>"; };
+		672F02CA7FEC484596CEBBF1 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		7D627129A0BC4529B604DB38 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,18 +67,46 @@
 			buildActionMask = 2147483647;
 			files = (
 				20855F7A18AEC708008CCD95 /* Foundation.framework in Frameworks */,
+				75BA015ADB36442584B4E5C7 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		206B9DA618B159C90085825B /* Tracks */ = {
+			isa = PBXGroup;
+			children = (
+				206B9D9718B1595F0085825B /* RMTrack.h */,
+				206B9D9818B1595F0085825B /* RMTrack.m */,
+				206B9D9A18B1596F0085825B /* RMVideoTrack.h */,
+				206B9D9B18B1596F0085825B /* RMVideoTrack.m */,
+				206B9D9D18B1597F0085825B /* RMAudioTrack.h */,
+				206B9D9E18B1597F0085825B /* RMAudioTrack.m */,
+			);
+			name = Tracks;
+			sourceTree = "<group>";
+		};
+		206B9DA718B159D10085825B /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				206B9D9418B159540085825B /* RMFile.h */,
+				206B9D9518B159540085825B /* RMFile.m */,
+				206B9DA018B159960085825B /* RMMP4File.h */,
+				206B9DA118B159960085825B /* RMMP4File.m */,
+				206B9DA318B159A10085825B /* RMMKVFile.h */,
+				206B9DA418B159A10085825B /* RMMKVFile.m */,
+			);
+			name = Files;
+			sourceTree = "<group>";
+		};
 		20855F6D18AEC708008CCD95 = {
 			isa = PBXGroup;
 			children = (
 				20855F7B18AEC708008CCD95 /* remuxer */,
 				20855F7818AEC708008CCD95 /* Frameworks */,
 				20855F7718AEC708008CCD95 /* Products */,
+				672F02CA7FEC484596CEBBF1 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				20855F7918AEC708008CCD95 /* Foundation.framework */,
+				7D627129A0BC4529B604DB38 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -74,7 +131,15 @@
 			isa = PBXGroup;
 			children = (
 				20855F7C18AEC708008CCD95 /* main.m */,
-				20855F8018AEC708008CCD95 /* remuxer.1 */,
+				20855F8718AECB80008CCD95 /* RMRemuxerController.h */,
+				20855F8818AECB80008CCD95 /* RMRemuxerController.m */,
+				206B9DA818B15CB30085825B /* RMVideoRemuxOperation.h */,
+				206B9DA918B15CB30085825B /* RMVideoRemuxOperation.m */,
+				206B9DA718B159D10085825B /* Files */,
+				206B9DA618B159C90085825B /* Tracks */,
+				20855F8A18AED1D3008CCD95 /* ECTask.h */,
+				20855F8B18AED1D3008CCD95 /* ECTask.m */,
+				206B9DAB18B1654F0085825B /* ColorMacros.h */,
 				20855F7E18AEC708008CCD95 /* Supporting Files */,
 			);
 			path = remuxer;
@@ -95,9 +160,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 20855F8418AEC708008CCD95 /* Build configuration list for PBXNativeTarget "remuxer" */;
 			buildPhases = (
+				379B666DAEE4472BB8F8F770 /* Check Pods Manifest.lock */,
 				20855F7218AEC708008CCD95 /* Sources */,
 				20855F7318AEC708008CCD95 /* Frameworks */,
 				20855F7418AEC708008CCD95 /* CopyFiles */,
+				BA2F7DFFC96B4369B8B3C4FE /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -134,12 +201,54 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		379B666DAEE4472BB8F8F770 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BA2F7DFFC96B4369B8B3C4FE /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		20855F7218AEC708008CCD95 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				20855F7D18AEC708008CCD95 /* main.m in Sources */,
+				20855F8C18AED1D3008CCD95 /* ECTask.m in Sources */,
+				206B9D9F18B1597F0085825B /* RMAudioTrack.m in Sources */,
+				206B9DAA18B15CB30085825B /* RMVideoRemuxOperation.m in Sources */,
+				206B9DA518B159A10085825B /* RMMKVFile.m in Sources */,
+				206B9D9C18B1596F0085825B /* RMVideoTrack.m in Sources */,
+				206B9D9918B1595F0085825B /* RMTrack.m in Sources */,
+				206B9D9618B159540085825B /* RMFile.m in Sources */,
+				206B9DA218B159960085825B /* RMMP4File.m in Sources */,
+				20855F8918AECB80008CCD95 /* RMRemuxerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +271,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -177,6 +288,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = /usr/local/bin;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -200,6 +312,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -209,6 +323,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = /usr/local/bin;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 			};
@@ -216,7 +331,9 @@
 		};
 		20855F8518AEC708008CCD95 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 672F02CA7FEC484596CEBBF1 /* Pods.xcconfig */;
 			buildSettings = {
+				DEPLOYMENT_LOCATION = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "remuxer/remuxer-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -225,7 +342,10 @@
 		};
 		20855F8618AEC708008CCD95 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 672F02CA7FEC484596CEBBF1 /* Pods.xcconfig */;
 			buildSettings = {
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "remuxer/remuxer-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -251,6 +371,7 @@
 				20855F8618AEC708008CCD95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

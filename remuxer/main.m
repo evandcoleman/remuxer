@@ -7,15 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RMRemuxerController.h"
 
-int main(int argc, const char * argv[])
-{
+int main(int argc, const char * argv[]) {
 
     @autoreleasepool {
         
-        // insert code here...
-        NSLog(@"Hello, World!");
-        
+        [[RMRemuxerController sharedInstance] processArgc:argc argv:argv];
     }
     return 0;
 }
