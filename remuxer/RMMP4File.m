@@ -48,6 +48,9 @@
                     track.bitRate = [arr[3] integerValue];
                     track.sampleRate = [arr[5] doubleValue];
                     [tracks addObject:track];
+                } else if ([type isEqualToString:@"sbtl"]) {
+                    RMSubtitleTrack *track = [[RMSubtitleTrack alloc] init];
+                    [tracks addObject:track];
                 }
             }
         }
