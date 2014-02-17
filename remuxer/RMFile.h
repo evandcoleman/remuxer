@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "RMVideoTrack.h"
 #import "RMAudioTrack.h"
+#import "RMSubtitleTrack.h"
 
 @interface RMFile : NSObject {
     @protected

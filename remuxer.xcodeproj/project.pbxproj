@@ -18,6 +18,7 @@
 		20855F7D18AEC708008CCD95 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 20855F7C18AEC708008CCD95 /* main.m */; };
 		20855F8918AECB80008CCD95 /* RMRemuxerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20855F8818AECB80008CCD95 /* RMRemuxerController.m */; };
 		20855F8C18AED1D3008CCD95 /* ECTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 20855F8B18AED1D3008CCD95 /* ECTask.m */; };
+		20C96C4018B18EE600676640 /* RMSubtitleTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C96C3F18B18EE600676640 /* RMSubtitleTrack.m */; };
 		75BA015ADB36442584B4E5C7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D627129A0BC4529B604DB38 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,8 @@
 		20855F8818AECB80008CCD95 /* RMRemuxerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMRemuxerController.m; sourceTree = "<group>"; };
 		20855F8A18AED1D3008CCD95 /* ECTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECTask.h; sourceTree = "<group>"; };
 		20855F8B18AED1D3008CCD95 /* ECTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECTask.m; sourceTree = "<group>"; };
+		20C96C3E18B18EE600676640 /* RMSubtitleTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMSubtitleTrack.h; sourceTree = "<group>"; };
+		20C96C3F18B18EE600676640 /* RMSubtitleTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMSubtitleTrack.m; sourceTree = "<group>"; };
 		672F02CA7FEC484596CEBBF1 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		7D627129A0BC4529B604DB38 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -83,6 +86,8 @@
 				206B9D9B18B1596F0085825B /* RMVideoTrack.m */,
 				206B9D9D18B1597F0085825B /* RMAudioTrack.h */,
 				206B9D9E18B1597F0085825B /* RMAudioTrack.m */,
+				20C96C3E18B18EE600676640 /* RMSubtitleTrack.h */,
+				20C96C3F18B18EE600676640 /* RMSubtitleTrack.m */,
 			);
 			name = Tracks;
 			sourceTree = "<group>";
@@ -239,6 +244,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20C96C4018B18EE600676640 /* RMSubtitleTrack.m in Sources */,
 				20855F7D18AEC708008CCD95 /* main.m in Sources */,
 				20855F8C18AED1D3008CCD95 /* ECTask.m in Sources */,
 				206B9D9F18B1597F0085825B /* RMAudioTrack.m in Sources */,

@@ -77,28 +77,46 @@
         NSUInteger videoTrackIndex = [self.file indexOfFirstVideoTrack];
         NSUInteger ac3TrackIndex = [self.file indexOfFirstAudioTrack];
         
-        NSArray *arguments = @[@"-i", path,
-                               @"-map", [NSString stringWithFormat:@"0:%li", videoTrackIndex],
-                               @"-map", [NSString stringWithFormat:@"0:%li", ac3TrackIndex],
-                               @"-map", [NSString stringWithFormat:@"0:%li", ac3TrackIndex],
-                               @"-c:v", @"copy",
-                               @"-c:a:0", @"aac",
-                               @"-ab", @"160k",
-                               @"-ac", @"2",
-                               @"-c:a:1", @"copy",
-                               @"-strict", @"experimental",
-                               @"-f", @"mp4",
-                               outPath];
-        
+        NSMutableArray *arguments = [NSMutableArray array];
+        [arguments addObjectsFromArray:@[@"-i", path]];
+        // Copy the video track
+        [arguments addObjectsFromArray:@[@"-map", [NSString stringWithFormat:@"0:%li", videoTrackIndex]]];
+        [arguments addObjectsFromArray:@[@"-c:v", @"copy"]];
         fprintf(stderr, "Mapping video track %li to 0\n", videoTrackIndex);
+        // Convert AC3 to AAC
+        [arguments addObjectsFromArray:@[@"-map", [NSString stringWithFormat:@"0:%li", ac3TrackIndex]]];
+        [arguments addObjectsFromArray:@[@"-c:a:0", @"aac",
+                                         @"-ab", @"160k",
+                                         @"-ac", @"2",
+                                         @"-strict", @"experimental"]];
         fprintf(stderr, "Mapping AAC track %li to 1\n", ac3TrackIndex);
+        // Copy AC3 track
+        [arguments addObjectsFromArray:@[@"-map", [NSString stringWithFormat:@"0:%li", ac3TrackIndex]]];
+        [arguments addObjectsFromArray:@[@"-c:a:1", @"copy"]];
         fprintf(stderr, "Mapping AC3 track %li to 2\n", ac3TrackIndex);
         
-//        if ([self subtitleTrackNumber:trackCodecs]) {
-//            fprintf(stderr, BOLDRED "Skipping subtitles.\n" RESET);
-//            [self completeOperation];
-//            return;
-//        }
+        // Copy subtitles
+        NSInteger addedTracks = 0;
+        NSInteger numTracks = 0;
+        for (RMTrack *track in self.file.tracks) {
+            if ([track isKindOfClass:[RMSubtitleTrack class]]) {
+                RMSubtitleTrack *t = (RMSubtitleTrack *)track;
+                if (t.codec == RMSubtitleCodecSRT) {
+                    [arguments addObjectsFromArray:@[@"-map", [NSString stringWithFormat:@"0:%li", numTracks]]];
+                    [arguments addObjectsFromArray:@[[NSString stringWithFormat:@"-c:s:%li", addedTracks], @"mov_text"]];
+                    addedTracks++;
+                    fprintf(stderr, "Mapping SRT track %li to %li\n", ac3TrackIndex, 2+addedTracks);
+                } else if (t.codec == RMSubtitleCodecTX3G) {
+                    [arguments addObjectsFromArray:@[@"-map", [NSString stringWithFormat:@"0:%li", numTracks]]];
+                    [arguments addObjectsFromArray:@[[NSString stringWithFormat:@"-c:s:%li", addedTracks], @"copy"]];
+                    addedTracks++;
+                    fprintf(stderr, "Mapping tx3g track %li to %li\n", ac3TrackIndex, 2+addedTracks);
+                }
+            }
+            numTracks++;
+        }
+        
+        [arguments addObjectsFromArray:@[@"-f", @"mp4", outPath]];
         
         __block BOOL isDone = NO;
         ECTask *task = [[ECTask alloc] initWithLaunchPath:[self ffmpegPath]];
@@ -108,15 +126,7 @@
             if ([output rangeOfString:@"muxing overhead"].location == NSNotFound) {
                 CGFloat time = [self timeWithString:output];
                 int prog = (time / duration) * 100;
-                if (prog < 25) {
-                    fprintf(stderr, BOLDMAGENTA "\rRemuxing: " BOLDRED "%d%c" RESET, prog, '%');
-                } else if (prog >= 25 && prog < 50) {
-                    fprintf(stderr, BOLDMAGENTA "\rRemuxing: " BOLDYELLOW "%d%c" RESET, prog, '%');
-                } else if (prog >= 50 && prog < 75) {
-                    fprintf(stderr, BOLDMAGENTA "\rRemuxing: " BOLDCYAN "%d%c" RESET, prog, '%');
-                } else if (prog >= 75 && prog < 100) {
-                    fprintf(stderr, BOLDMAGENTA "\rRemuxing: " BOLDBLUE "%d%c" RESET, prog, '%');
-                }
+                fprintf(stderr, BOLDMAGENTA "\rRemuxing: " BOLDRED "%d%c" RESET, prog, '%');
             } else {
                 // Done
                 isDone = YES;
