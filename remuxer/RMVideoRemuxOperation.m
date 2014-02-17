@@ -105,12 +105,12 @@
                     [arguments addObjectsFromArray:@[@"-map", [NSString stringWithFormat:@"0:%li", numTracks]]];
                     [arguments addObjectsFromArray:@[[NSString stringWithFormat:@"-c:s:%li", addedTracks], @"mov_text"]];
                     addedTracks++;
-                    fprintf(stderr, "Mapping SRT track %li to %li\n", ac3TrackIndex, 2+addedTracks);
+                    fprintf(stderr, "Mapping SRT track %li to %li\n", numTracks, 2+addedTracks);
                 } else if (t.codec == RMSubtitleCodecTX3G) {
                     [arguments addObjectsFromArray:@[@"-map", [NSString stringWithFormat:@"0:%li", numTracks]]];
                     [arguments addObjectsFromArray:@[[NSString stringWithFormat:@"-c:s:%li", addedTracks], @"copy"]];
                     addedTracks++;
-                    fprintf(stderr, "Mapping tx3g track %li to %li\n", ac3TrackIndex, 2+addedTracks);
+                    fprintf(stderr, "Mapping tx3g track %li to %li\n", numTracks, 2+addedTracks);
                 }
             }
             numTracks++;

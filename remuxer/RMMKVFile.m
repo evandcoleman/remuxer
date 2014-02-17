@@ -51,7 +51,9 @@
             track.sampleRate = [[self findItemWithRegex:@"(?<=Sampling frequency: ).*" inString:trackString] doubleValue];
             [tracks addObject:track];
         } else if ([type isEqualToString:@"subtitles"]) {
-            
+            RMSubtitleTrack *track = [[RMSubtitleTrack alloc] init];
+            [track setCodecString:[self findItemWithRegex:@"(?<=Codec ID: ).*" inString:trackString]];
+            [tracks addObject:track];
         }
     }
 
