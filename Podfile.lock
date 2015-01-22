@@ -1,0 +1,10 @@
+PODS:
+  - JVArgumentParser (0.2.0)
+
+DEPENDENCIES:
+  - JVArgumentParser (~> 0.2.0)
+
+SPEC CHECKSUMS:
+  JVArgumentParser: ef28a1d00b8ca85c0cb800bd05bec954128f7387
+
+COCOAPODS: 0.33.1
