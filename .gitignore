@@ -1,27 +1,26 @@
-# the build
-Build
-build
-# DerivedData
-Docs/API
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
 
-# temp nibs and swap files
-*~.nib
-*.swp
+# Folders
+_obj
+_test
 
-# OS X folder attributes
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+_testmain.go
+
+*.exe
+*.test
+*.coverprofile
+
 .DS_Store
-.idea
-
-# user-specific XCode stuff
-*.mode1v3
-*.mode2v3
-*.pbxuser
-*.perspectivev3
-*.xcuserdatad
-*.xcodeproj/project.xcworkspace/
-*.xcodeproj/xcuserdata/
-*.xcworkspace/xcshareddata/
-Pods/
-# UISpecRunner cached build path
-.uispec.app
-Specs/Runner/UISpec
