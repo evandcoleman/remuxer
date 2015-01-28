@@ -2,7 +2,6 @@ package main
 
 import (
   "encoding/json"
-  "fmt"
   "log"
 
   "github.com/codegangsta/cli"
@@ -27,16 +26,18 @@ var remuxCommand = cli.Command{
       log.Fatal("Missing input file.")
     }
 
-    if output, err := executeCommand(args...); err != nil {
+    output, err := executeCommand(args...)
+    if err != nil {
       log.Fatal(err.Error())
-    } else {
-      var file models.File
-      err := json.Unmarshal(output, &file)
-      if err != nil {
-        log.Fatal(err)
-      }
-      fmt.Printf("%+v", file)
     }
-    
+
+    var file models.File
+    err = json.Unmarshal(output, &file)
+    if err != nil {
+      log.Fatal(err)
+    }
+    if !file.IsValidMKV() {
+      log.Fatal("An MKV file with an x264 and AC3 stream is required.")
+    }
   },
 }
