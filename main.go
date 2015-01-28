@@ -30,7 +30,6 @@ func executeCommand(args ...string) ([]byte, error) {
   cmd := cmdForCommand(args...)
 
   cmd.Stdin = os.Stdin
-  cmd.Stderr = os.Stderr
 
   output, err := cmd.Output()
 
