@@ -6,8 +6,8 @@ type VideoFile interface {
   HasH264Stream() bool
   HasAC3Stream() bool
 
-  H264TrackIndex() *int64
-  AC3TrackIndex() *int64
+  H264Stream() *Stream
+  AC3Stream() *Stream
 
   SubtitleStreams() []Stream
   VorbisStreams() []Stream
@@ -47,19 +47,19 @@ func (f *File) HasAC3Stream() bool {
   return false
 }
 
-func (f *File) H264TrackIndex() *int64 {
+func (f *File) H264Stream() *Stream {
   for _, stream := range f.Streams {
     if stream.CodecName == "h264" {
-      return &stream.Index
+      return &stream
     }
   }
   return nil
 }
 
-func (f *File) AC3TrackIndex() *int64 {
+func (f *File) AC3Stream() *Stream {
   for _, stream := range f.Streams {
     if stream.CodecName == "ac3" {
-      return &stream.Index
+      return &stream
     }
   }
   return nil

@@ -59,17 +59,34 @@ var remuxCommand = cli.Command{
 
     // Prepare the ffmpeg command arguments
     var totalOutputStreams = 0
-    h264TrackIndex := strconv.FormatInt(*file.H264TrackIndex(), 10)
-    ac3TrackIndex := strconv.FormatInt(*file.AC3TrackIndex(), 10)
+    h264Stream := file.H264Stream()
+    ac3Stream := file.AC3Stream()
+    h264TrackIndex := strconv.FormatInt(h264Stream.Index, 10)
+    ac3TrackIndex := strconv.FormatInt(ac3Stream.Index, 10)
     convertArgs := []string{"ffmpeg", "-i", input}
     convertArgs = append(convertArgs, "-map", "0:" + h264TrackIndex)
     convertArgs = append(convertArgs, "-c:v", "copy")
+    if h264Stream.Tags != nil {
+      if h264Stream.Tags.Language != nil {
+        convertArgs = append(convertArgs, "-metadata:s:v:0", fmt.Sprintf("lang='%s'", *h264Stream.Tags.Language))
+      }
+    }
     totalOutputStreams++
     convertArgs = append(convertArgs, "-map", "0:" + ac3TrackIndex)
     convertArgs = append(convertArgs, "-c:a:0", "aac", "-ab", "160k", "-ac", "2", "-strict", "experimental")
+    if ac3Stream.Tags != nil {
+      if ac3Stream.Tags.Language != nil {
+        convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
+      }
+    }
     totalOutputStreams++
     convertArgs = append(convertArgs, "-map", "0:" + ac3TrackIndex)
     convertArgs = append(convertArgs, "-c:a:1", "copy")
+    if ac3Stream.Tags != nil {
+      if ac3Stream.Tags.Language != nil {
+        convertArgs = append(convertArgs, "-metadata:s:a:2", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
+      }
+    }
     totalOutputStreams++
 
     color.Println("@{!b}Output:")
@@ -80,8 +97,16 @@ var remuxCommand = cli.Command{
     // Copy Vorbis streams
     var audioStreamIndex = 2
     for _, stream := range file.VorbisStreams() {
-      convertArgs = append(convertArgs, fmt.Sprintf("-map", "0:%d", stream.Index))
+      convertArgs = append(convertArgs, "-map", fmt.Sprintf("0:%d", stream.Index))
       convertArgs = append(convertArgs, fmt.Sprintf("-c:a:%d", audioStreamIndex), "copy")
+      if stream.Tags != nil {
+        if stream.Tags.Language != nil {
+          convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:a:%d", audioStreamIndex), fmt.Sprintf("lang='%s'", *stream.Tags.Language))
+        }
+        if stream.Tags.Title != nil {
+          convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:a:%d", audioStreamIndex), fmt.Sprintf("title='%s'", *stream.Tags.Title))
+        }
+      }
       color.Println(fmt.Sprintf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} copy", stream.Index, stream.CodecName, totalOutputStreams))
       audioStreamIndex++
       totalOutputStreams++
@@ -98,8 +123,16 @@ var remuxCommand = cli.Command{
       } else {
         continue
       }
-      convertArgs = append(convertArgs, fmt.Sprintf("-map", "0:%d", stream.Index))
+      convertArgs = append(convertArgs, "-map", fmt.Sprintf("0:%d", stream.Index))
       convertArgs = append(convertArgs, fmt.Sprintf("-c:s:%d", subtitleStreamIndex), outputCodec)
+      if stream.Tags != nil {
+        if stream.Tags.Language != nil {
+          convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:s:%d", subtitleStreamIndex), fmt.Sprintf("lang='%s'", *stream.Tags.Language))
+        }
+        if stream.Tags.Title != nil {
+          convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:s:%d", subtitleStreamIndex), fmt.Sprintf("title='%s'", *stream.Tags.Title))
+        }
+      }
       color.Println(fmt.Sprintf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} %s", stream.Index, stream.CodecName, totalOutputStreams, outputCodec))
       subtitleStreamIndex++
       totalOutputStreams++
@@ -108,7 +141,7 @@ var remuxCommand = cli.Command{
     var name = input[0:len(input)-len(filepath.Ext(input))]
     convertArgs = append(convertArgs, "-f", "mp4", name + ".m4v")
 
-    Do the conversion
+    // Do the conversion
     _, convertErr := executeCommand(convertArgs...)
     if convertErr != nil {
       log.Fatal(convertErr.Error())
