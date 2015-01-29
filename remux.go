@@ -156,7 +156,7 @@ var remuxCommand = cli.Command{
         break
       }
       if strings.Contains(line, "muxing overhead") {
-        color.Println("\r@{!m}Remuxing: @{!r}100%%")
+        color.Println("\r@{!m}Remuxing: @{!r}100%%\n")
       } else {
         var time float64 = 0
         parts := strings.Split(line, "time=")
