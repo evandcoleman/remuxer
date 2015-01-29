@@ -22,7 +22,7 @@ func main() {
 
 func cmdForCommand(args ...string) *exec.Cmd {
   cmd := exec.Command(args[0], args[1:]...)
-  printCommand(cmd)
+  //printCommand(cmd)
 
   return cmd
 }
