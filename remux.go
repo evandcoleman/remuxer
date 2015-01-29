@@ -6,6 +6,7 @@ import (
   "log"
   "path/filepath"
   "strconv"
+  "strings"
 
   "github.com/codegangsta/cli"
   "github.com/edc1591/remuxer/models"
@@ -140,11 +141,36 @@ var remuxCommand = cli.Command{
 
     var name = input[0:len(input)-len(filepath.Ext(input))]
     convertArgs = append(convertArgs, "-f", "mp4", name + ".m4v")
+    var duration float64 = file.GetDuration()
 
     // Do the conversion
-    _, convertErr := executeCommand(convertArgs...)
+    reader, convertErr := pipeCommand(convertArgs...)
     if convertErr != nil {
       log.Fatal(convertErr.Error())
+    }
+    for {
+      line, err := reader.ReadString('\r')
+      if err != nil {
+        break
+      }
+      if strings.Contains(line, "muxing overhead") {
+        color.Println("\r@{!m}Remuxing: @{!r}100%%")
+      } else {
+        var time float64 = 0
+        parts := strings.Split(line, "time=")
+        if len(parts) >= 2 {
+          timeParts := strings.Split(parts[1], " ")
+          if len(timeParts) >= 1 {
+            times := strings.Split(timeParts[0], ":")
+            hours, _ := strconv.ParseFloat(times[0], 64)
+            minutes, _ := strconv.ParseFloat(times[1], 64)
+            seconds, _ := strconv.ParseFloat(times[2], 64)
+            time = (hours * 60 * 60) + (minutes * 60) + seconds
+          }
+        }
+        var percentage float64 = (time / duration) * 100
+        color.Printf("\r@{!m}Remuxing: @{!r}%0.0f%%", percentage)
+      }
     }
   },
 }

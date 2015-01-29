@@ -1,5 +1,7 @@
 package models
 
+import "strconv"
+
 type VideoFile interface {
   IsValidMKV() bool
   IsMKV() bool
@@ -11,6 +13,8 @@ type VideoFile interface {
 
   SubtitleStreams() []Stream
   VorbisStreams() []Stream
+
+  GetDuration() float64
 }
 
 type File struct {
@@ -83,4 +87,12 @@ func (f *File) VorbisStreams() []Stream {
     }
   }
   return vorbisStreams
+}
+
+func (f *File) GetDuration() float64 {
+  duration, err := strconv.ParseFloat(f.Format.Duration, 64)
+  if err != nil {
+    return 0
+  }
+  return duration
 }

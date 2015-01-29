@@ -1,6 +1,7 @@
 package main
 
 import (
+  "bufio"
   "log"
   "os"
   "os/exec"
@@ -34,6 +35,18 @@ func executeCommand(args ...string) ([]byte, error) {
   output, err := cmd.Output()
 
   return output, err
+}
+
+func pipeCommand(args ...string) (*bufio.Reader, error) {
+  cmd := cmdForCommand(args...)
+
+  stderr, _ := cmd.StderrPipe()
+
+  err := cmd.Start()
+
+  reader := bufio.NewReader(stderr)
+
+  return reader, err
 }
 
 func printCommand(cmd *exec.Cmd) {
