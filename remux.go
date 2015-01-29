@@ -91,9 +91,9 @@ var remuxCommand = cli.Command{
     totalOutputStreams++
 
     color.Println("@{!b}Output:")
-    color.Println(fmt.Sprintf("\t@{!y}%s:@{|} h264 -> @{!y}0:@{|} copy", h264TrackIndex))
-    color.Println(fmt.Sprintf("\t@{!y}%s:@{|} ac3 -> @{!y}1:@{|} aac", ac3TrackIndex))
-    color.Println(fmt.Sprintf("\t@{!y}%s:@{|} ac3 -> @{!y}2:@{|} copy", ac3TrackIndex))
+    color.Printf("\t@{!y}%s:@{|} h264 -> @{!y}0:@{|} copy\n", h264TrackIndex)
+    color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}1:@{|} aac\n", ac3TrackIndex)
+    color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}2:@{|} copy\n", ac3TrackIndex)
 
     // Copy Vorbis streams
     var audioStreamIndex = 2
@@ -108,7 +108,7 @@ var remuxCommand = cli.Command{
           convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:a:%d", audioStreamIndex), fmt.Sprintf("title='%s'", *stream.Tags.Title))
         }
       }
-      color.Println(fmt.Sprintf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} copy", stream.Index, stream.CodecName, totalOutputStreams))
+      color.Printf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} copy\n", stream.Index, stream.CodecName, totalOutputStreams)
       audioStreamIndex++
       totalOutputStreams++
     }
@@ -134,7 +134,7 @@ var remuxCommand = cli.Command{
           convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:s:%d", subtitleStreamIndex), fmt.Sprintf("title='%s'", *stream.Tags.Title))
         }
       }
-      color.Println(fmt.Sprintf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} %s", stream.Index, stream.CodecName, totalOutputStreams, outputCodec))
+      color.Printf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} %s\n", stream.Index, stream.CodecName, totalOutputStreams, outputCodec)
       subtitleStreamIndex++
       totalOutputStreams++
     }
