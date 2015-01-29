@@ -52,8 +52,10 @@ var remuxCommand = cli.Command{
     color.Println("@{!b}Input:")
     for _, stream := range file.Streams {
       var str = fmt.Sprintf("\t@{!y}%d:@{|} %s, %s", stream.Index, stream.CodecType, stream.CodecName)
-      if stream.Tags.Title != nil {
-        str += " - " + *stream.Tags.Title
+      if stream.Tags != nil {
+        if stream.Tags.Title != nil {
+          str += " - " + *stream.Tags.Title
+        }
       }
       color.Println(str)
     }
