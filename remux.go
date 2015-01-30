@@ -21,8 +21,14 @@ var remuxCommand = cli.Command{
       Name:  "input, i",
       Usage: "The input file.",
     },
+    cli.BoolFlag{
+      Name:  "verbose, v",
+      Usage: "Verbose mode.",
+    },
   },
   Action: func(c *cli.Context) {
+    isVerbose := c.Bool("verbose")
+
     probeArgs := []string{"ffprobe", "-v", "quiet", "-print_format", "json", "-show_format", "-show_streams"}
 
     input := c.String("input")
@@ -34,7 +40,7 @@ var remuxCommand = cli.Command{
     }
 
     // Probe input file and unmarshal into model
-    probeOutput, err := executeCommand(probeArgs...)
+    probeOutput, err := executeCommand(isVerbose, probeArgs...)
     if err != nil {
       log.Fatal(err.Error())
     }
@@ -146,7 +152,7 @@ var remuxCommand = cli.Command{
     var duration float64 = file.GetDuration()
 
     // Do the conversion
-    reader, convertErr := pipeCommand(convertArgs...)
+    reader, convertErr := pipeCommand(isVerbose, convertArgs...)
     if convertErr != nil {
       log.Fatal(convertErr.Error())
     }

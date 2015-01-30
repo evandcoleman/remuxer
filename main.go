@@ -2,7 +2,7 @@ package main
 
 import (
   "bufio"
-  "log"
+  "fmt"
   "os"
   "os/exec"
   
@@ -20,15 +20,18 @@ func main() {
   app.Run(os.Args)
 }
 
-func cmdForCommand(args ...string) *exec.Cmd {
+func cmdForCommand(verbose bool, args ...string) *exec.Cmd {
   cmd := exec.Command(args[0], args[1:]...)
-  //printCommand(cmd)
+
+  if verbose {
+    printCommand(cmd)
+  }
 
   return cmd
 }
 
-func executeCommand(args ...string) ([]byte, error) {
-  cmd := cmdForCommand(args...)
+func executeCommand(verbose bool, args ...string) ([]byte, error) {
+  cmd := cmdForCommand(verbose, args...)
 
   cmd.Stdin = os.Stdin
 
@@ -37,10 +40,16 @@ func executeCommand(args ...string) ([]byte, error) {
   return output, err
 }
 
-func pipeCommand(args ...string) (*bufio.Reader, error) {
-  cmd := cmdForCommand(args...)
+func pipeCommand(verbose bool, args ...string) (*bufio.Reader, error) {
+  cmd := cmdForCommand(verbose, args...)
 
   stderr, _ := cmd.StderrPipe()
+
+  if verbose {
+    cmd.Stderr = os.Stderr
+    cmd.Stdout = os.Stdout
+    cmd.Stdin = os.Stdin
+  }
 
   err := cmd.Start()
 
@@ -54,5 +63,5 @@ func printCommand(cmd *exec.Cmd) {
   for i, arg := range cmd.Args {
     a[i] = arg
   }
-  log.Println(a...)
+  fmt.Println(a...)
 }
