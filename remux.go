@@ -125,7 +125,7 @@ var remuxCommand = cli.Command{
     var subtitleStreamIndex = 0
     for _, stream := range file.SubtitleStreams() {
       var outputCodec string
-      if stream.CodecName == "subrip" {
+      if stream.CodecName == "subrip" || stream.CodecName == "srt" {
         outputCodec = "mov_text"
       } else if stream.CodecName == "mov_text" {
         outputCodec = "copy"
