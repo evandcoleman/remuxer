@@ -127,7 +127,7 @@ var remuxCommand = cli.Command{
 			var outputCodec string
 			if stream.CodecName == "subrip" || stream.CodecName == "srt" {
 				outputCodec = "mov_text"
-			} else if stream.CodecName == "mov_text" {
+			} else if stream.CodecName == "mov_text" || stream.CodecName == "dvdsub" {
 				outputCodec = "copy"
 			} else {
 				continue
@@ -158,6 +158,7 @@ var remuxCommand = cli.Command{
 		}
 		for {
 			line, err := reader.ReadString('\r')
+			// fmt.Println(line)
 			if err != nil {
 				break
 			}
