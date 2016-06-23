@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/codegangsta/cli"
-	"github.com/edc1591/remuxer/models"
+	"github.com/brettaweston/remuxer/models"
 	"github.com/wsxiaoys/terminal/color"
 )
 
