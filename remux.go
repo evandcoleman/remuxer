@@ -102,6 +102,7 @@ var remuxCommand = cli.Command{
 			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
 			convertArgs = append(convertArgs, "-c:a:1", "copy")
 			convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("language=eng"))
+			convertArgs = append(convertArgs, "-disposition:s:a:1", fmt.Sprintf("none"))
 
 			totalOutputStreams++
 
