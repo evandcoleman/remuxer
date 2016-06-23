@@ -7,9 +7,11 @@ type VideoFile interface {
   IsMKV() bool
   HasH264Stream() bool
   HasAC3Stream() bool
+  HasAACStream() bool
 
   H264Stream() *Stream
   AC3Stream() *Stream
+  AACStream() *Stream
 
   SubtitleStreams() []Stream
   VorbisStreams() []Stream
