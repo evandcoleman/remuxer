@@ -127,8 +127,7 @@ var remuxCommand = cli.Command{
 				audioStreamIndex++
 				totalOutputStreams++
 			}
-		}
-		else {
+		} else {
 			convertArgs = append(convertArgs, "-map", "0:"+aacTrackIndex)
 			convertArgs = append(convertArgs, "-c:a:0", "copy")
 			if aacStream.Tags != nil {
