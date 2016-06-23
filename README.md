@@ -10,7 +10,7 @@ The old Objective-C version can be found in the `ec-legacy` branch.
 # Installation
 
     $ brew install ffmpeg
-    $ go get github.com/edc1591/remuxer
+    $ go get github.com/brettaweston/remuxer
 
 # Usage
 

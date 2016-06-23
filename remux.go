@@ -51,7 +51,7 @@ var remuxCommand = cli.Command{
 		}
 		// Check file validity
 		if !file.IsValidMKV() {
-			log.Fatal("An MKV file with an x264 and AC3 stream is required.")
+			log.Fatal("An MKV file with an x264 stream is required.")
 		}
 
 		// Print file streams
@@ -77,11 +77,11 @@ var remuxCommand = cli.Command{
 
 		if ac3Stream != nil {
 			ac3TrackIndex = strconv.FormatInt(ac3Stream.Index, 10)
-			_ = ac3TrackIndex
+			_ = ac3TrackIndex //Because go is stupid
 		}
 		if aacStream != nil{
 			aacTrackIndex = strconv.FormatInt(aacStream.Index, 10)
-			_ = aacTrackIndex
+			_ = aacTrackIndex //Because go is stupid
 		}
 
 		convertArgs := []string{"ffmpeg", "-i", input}
