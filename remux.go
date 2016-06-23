@@ -96,23 +96,13 @@ var remuxCommand = cli.Command{
 		if ac3Stream != nil {
 			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
 			convertArgs = append(convertArgs, "-c:a:0", "aac", "-ab", "160k", "-ac", "2", "-strict", "experimental")
-			if ac3Stream.Tags != nil {
-				if ac3Stream.Tags.Language != nil {
-					convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
-				} else {
-					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
-				}
-			}
+			convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
+
 			totalOutputStreams++
 			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
 			convertArgs = append(convertArgs, "-c:a:1", "copy")
-			if ac3Stream.Tags != nil {
-				if ac3Stream.Tags.Language != nil {
-					convertArgs = append(convertArgs, "-metadata:s:a:2", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
-				} else {
-					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
-				}
-			}
+			convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang=eng"))
+
 			totalOutputStreams++
 
 			color.Println("@{!b}Output:")
@@ -140,13 +130,7 @@ var remuxCommand = cli.Command{
 		} else {
 			convertArgs = append(convertArgs, "-map", "0:"+aacTrackIndex)
 			convertArgs = append(convertArgs, "-c:a:0", "copy")
-			if aacStream.Tags != nil {
-				if aacStream.Tags.Language != nil {
-					convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
-				} else {
-					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
-				}
-			}
+			convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
 			totalOutputStreams++
 
 			color.Println("@{!b}Output:")
