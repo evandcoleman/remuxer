@@ -83,7 +83,7 @@ var remuxCommand = cli.Command{
 			}
 		}
 		totalOutputStreams++
-		if ac3TrackIndex != nil {
+		if ac3Stream != nil {
 			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
 			convertArgs = append(convertArgs, "-c:a:0", "aac", "-ab", "160k", "-ac", "2", "-strict", "experimental")
 			if ac3Stream.Tags != nil {
