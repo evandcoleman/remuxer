@@ -23,7 +23,7 @@ type File struct {
 }
 
 func (f *File) IsValidMKV() bool {
-  return f.IsMKV()
+  return f.IsMKV() && f.HasH264Stream()
 }
 
 func (f *File) IsMKV() bool {
