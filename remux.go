@@ -92,6 +92,7 @@ var remuxCommand = cli.Command{
 				}
 				else {
 					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
+				}
 			}
 			totalOutputStreams++
 			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
@@ -102,6 +103,7 @@ var remuxCommand = cli.Command{
 				}
 				else {
 					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
+				}
 			}
 			totalOutputStreams++
 
