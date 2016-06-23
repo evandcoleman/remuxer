@@ -125,8 +125,8 @@ var remuxCommand = cli.Command{
 				}
 				color.Printf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} copy\n", stream.Index, stream.CodecName, totalOutputStreams)
 				audioStreamIndex++
-				totalOutputStreams++ */
-			}
+				totalOutputStreams++ 
+			} */
 		} else {
 			convertArgs = append(convertArgs, "-map", "0:"+aacTrackIndex)
 			convertArgs = append(convertArgs, "-c:a:0", "copy")
