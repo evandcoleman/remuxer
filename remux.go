@@ -96,12 +96,12 @@ var remuxCommand = cli.Command{
 		if ac3Stream != nil {
 			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
 			convertArgs = append(convertArgs, "-c:a:0", "aac", "-ab", "160k", "-ac", "2", "-strict", "experimental")
-			convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
+			convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("language=eng"))
 
 			totalOutputStreams++
 			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
 			convertArgs = append(convertArgs, "-c:a:1", "copy")
-			convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang=eng"))
+			convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("language=eng"))
 
 			totalOutputStreams++
 
@@ -111,7 +111,7 @@ var remuxCommand = cli.Command{
 			color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}2:@{|} copy\n", ac3TrackIndex)
 
 			// Copy Vorbis streams
-			var audioStreamIndex = 2
+/*			var audioStreamIndex = 2
 			for _, stream := range file.VorbisStreams() {
 				convertArgs = append(convertArgs, "-map", fmt.Sprintf("0:%d", stream.Index))
 				convertArgs = append(convertArgs, fmt.Sprintf("-c:a:%d", audioStreamIndex), "copy")
@@ -125,12 +125,12 @@ var remuxCommand = cli.Command{
 				}
 				color.Printf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} copy\n", stream.Index, stream.CodecName, totalOutputStreams)
 				audioStreamIndex++
-				totalOutputStreams++
+				totalOutputStreams++ */
 			}
 		} else {
 			convertArgs = append(convertArgs, "-map", "0:"+aacTrackIndex)
 			convertArgs = append(convertArgs, "-c:a:0", "copy")
-			convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
+			convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("language=eng"))
 			totalOutputStreams++
 
 			color.Println("@{!b}Output:")
