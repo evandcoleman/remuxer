@@ -89,8 +89,7 @@ var remuxCommand = cli.Command{
 			if ac3Stream.Tags != nil {
 				if ac3Stream.Tags.Language != nil {
 					convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
-				}
-				else {
+				} else {
 					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
 				}
 			}
@@ -100,8 +99,7 @@ var remuxCommand = cli.Command{
 			if ac3Stream.Tags != nil {
 				if ac3Stream.Tags.Language != nil {
 					convertArgs = append(convertArgs, "-metadata:s:a:2", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
-				}
-				else {
+				} else {
 					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
 				}
 			}
@@ -136,8 +134,7 @@ var remuxCommand = cli.Command{
 			if aacStream.Tags != nil {
 				if aacStream.Tags.Language != nil {
 					convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
-				}
-				else {
+				} else {
 					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
 				}
 			}
