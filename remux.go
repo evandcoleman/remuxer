@@ -70,8 +70,10 @@ var remuxCommand = cli.Command{
 		var totalOutputStreams = 0
 		h264Stream := file.H264Stream()
 		ac3Stream := file.AC3Stream()
+		aacStream := file.AACStream()
 		h264TrackIndex := strconv.FormatInt(h264Stream.Index, 10)
 		ac3TrackIndex := strconv.FormatInt(ac3Stream.Index, 10)
+		aacTrackIndex := strconv.FormatInt(aacStream.Indes, 10)
 		convertArgs := []string{"ffmpeg", "-i", input}
 		convertArgs = append(convertArgs, "-map", "0:"+h264TrackIndex)
 		convertArgs = append(convertArgs, "-c:v", "copy")
@@ -81,44 +83,67 @@ var remuxCommand = cli.Command{
 			}
 		}
 		totalOutputStreams++
-		convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
-		convertArgs = append(convertArgs, "-c:a:0", "aac", "-ab", "160k", "-ac", "2", "-strict", "experimental")
-		if ac3Stream.Tags != nil {
-			if ac3Stream.Tags.Language != nil {
-				convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
-			}
-		}
-		totalOutputStreams++
-		convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
-		convertArgs = append(convertArgs, "-c:a:1", "copy")
-		if ac3Stream.Tags != nil {
-			if ac3Stream.Tags.Language != nil {
-				convertArgs = append(convertArgs, "-metadata:s:a:2", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
-			}
-		}
-		totalOutputStreams++
-
-		color.Println("@{!b}Output:")
-		color.Printf("\t@{!y}%s:@{|} h264 -> @{!y}0:@{|} copy\n", h264TrackIndex)
-		color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}1:@{|} aac\n", ac3TrackIndex)
-		color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}2:@{|} copy\n", ac3TrackIndex)
-
-		// Copy Vorbis streams
-		var audioStreamIndex = 2
-		for _, stream := range file.VorbisStreams() {
-			convertArgs = append(convertArgs, "-map", fmt.Sprintf("0:%d", stream.Index))
-			convertArgs = append(convertArgs, fmt.Sprintf("-c:a:%d", audioStreamIndex), "copy")
-			if stream.Tags != nil {
-				if stream.Tags.Language != nil {
-					convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:a:%d", audioStreamIndex), fmt.Sprintf("lang='%s'", *stream.Tags.Language))
+		if ac3TrackIndex != nil {
+			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
+			convertArgs = append(convertArgs, "-c:a:0", "aac", "-ab", "160k", "-ac", "2", "-strict", "experimental")
+			if ac3Stream.Tags != nil {
+				if ac3Stream.Tags.Language != nil {
+					convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
 				}
-				if stream.Tags.Title != nil {
-					convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:a:%d", audioStreamIndex), fmt.Sprintf("title='%s'", *stream.Tags.Title))
-				}
+				else {
+					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
 			}
-			color.Printf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} copy\n", stream.Index, stream.CodecName, totalOutputStreams)
-			audioStreamIndex++
 			totalOutputStreams++
+			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
+			convertArgs = append(convertArgs, "-c:a:1", "copy")
+			if ac3Stream.Tags != nil {
+				if ac3Stream.Tags.Language != nil {
+					convertArgs = append(convertArgs, "-metadata:s:a:2", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
+				}
+				else {
+					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
+			}
+			totalOutputStreams++
+
+			color.Println("@{!b}Output:")
+			color.Printf("\t@{!y}%s:@{|} h264 -> @{!y}0:@{|} copy\n", h264TrackIndex)
+			color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}1:@{|} aac\n", ac3TrackIndex)
+			color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}2:@{|} copy\n", ac3TrackIndex)
+
+			// Copy Vorbis streams
+			var audioStreamIndex = 2
+			for _, stream := range file.VorbisStreams() {
+				convertArgs = append(convertArgs, "-map", fmt.Sprintf("0:%d", stream.Index))
+				convertArgs = append(convertArgs, fmt.Sprintf("-c:a:%d", audioStreamIndex), "copy")
+				if stream.Tags != nil {
+					if stream.Tags.Language != nil {
+						convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:a:%d", audioStreamIndex), fmt.Sprintf("lang='%s'", *stream.Tags.Language))
+					}
+					if stream.Tags.Title != nil {
+						convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:a:%d", audioStreamIndex), fmt.Sprintf("title='%s'", *stream.Tags.Title))
+					}
+				}
+				color.Printf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} copy\n", stream.Index, stream.CodecName, totalOutputStreams)
+				audioStreamIndex++
+				totalOutputStreams++
+			}
+		}
+		else {
+			convertArgs = append(convertArgs, "-map", "0:"+aacTrackIndex)
+			convertArgs = append(convertArgs, "-c:a:0", "copy")
+			if aacStream.Tags != nil {
+				if aacStream.Tags.Language != nil {
+					convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
+				}
+				else {
+					convertArgs = append(convertArgs, "-metadata:s:a:0", fmt.Sprintf("lang=eng"))
+				}
+			}
+			totalOutputStreams++
+
+			color.Println("@{!b}Output:")
+			color.Printf("\t@{!y}%s:@{|} h264 -> @{!y}0:@{|} copy\n", h264TrackIndex)
+			color.Printf("\t@{!y}%s:@{|} aac -> @{!y}1:@{|} copy\n", aacTrackIndex)
 		}
 
 		// Copy subtitle streams

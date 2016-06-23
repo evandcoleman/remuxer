@@ -23,7 +23,7 @@ type File struct {
 }
 
 func (f *File) IsValidMKV() bool {
-  return f.IsMKV() && f.HasH264Stream() && f.HasAC3Stream()
+  return f.IsMKV()
 }
 
 func (f *File) IsMKV() bool {
@@ -51,6 +51,15 @@ func (f *File) HasAC3Stream() bool {
   return false
 }
 
+func (f *File) HasAACStream() bool {
+  for _, stream := range f.Streams {
+    if stream.CodecName == "aac" {
+      return true
+    }
+  }
+  return false
+}
+
 func (f *File) H264Stream() *Stream {
   for _, stream := range f.Streams {
     if stream.CodecName == "h264" {
@@ -63,6 +72,15 @@ func (f *File) H264Stream() *Stream {
 func (f *File) AC3Stream() *Stream {
   for _, stream := range f.Streams {
     if stream.CodecName == "ac3" {
+      return &stream
+    }
+  }
+  return nil
+}
+
+func (f *File) AACStream() *Stream {
+  for _, stream := range f.Streams {
+    if stream.CodecName == "aac" {
       return &stream
     }
   }
