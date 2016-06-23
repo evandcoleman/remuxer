@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/codegangsta/cli"
+	"github.com/urfave/cli"
 	"github.com/brettaweston/remuxer/models"
 	"github.com/wsxiaoys/terminal/color"
 )
