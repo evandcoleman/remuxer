@@ -73,9 +73,9 @@ var remuxCommand = cli.Command{
 		aacStream := file.AACStream()
 		h264TrackIndex := strconv.FormatInt(h264Stream.Index, 10)
 		var ac3TrackIndex string = "initial"
-		_ = ac3TrackIndex
+		fmt.Sprintf("ac3TrackIndex")
 		var aacTrackIndex string = "initial"
-		_ = aacTrackIndex
+		fmt.Sprintf("aacTrackIndex")
 
 		if ac3Stream != nil {
 			ac3TrackIndex := strconv.FormatInt(ac3Stream.Index, 10)
