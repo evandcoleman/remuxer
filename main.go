@@ -6,7 +6,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/codegangsta/cli"
+	"github.com/urfave/cli"
 )
 
 func main() {
