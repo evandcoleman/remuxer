@@ -96,6 +96,8 @@ var remuxCommand = cli.Command{
 
 		convertArgs := []string{"ffmpeg", "-i", input}
 		
+		color.println("@{!b}Output:")
+
 		// Prepare video encoding arguments
 		if h264Stream != nil {
 			convertArgs = append(convertArgs, "-map", "0:"+h264TrackIndex)
@@ -106,6 +108,7 @@ var remuxCommand = cli.Command{
 				}
 			}
 			totalOutputStreams++
+			color.Printf("\t@{!y}%s:@{|} h264 -> @{!y}0:@{|} copy\n", h264TrackIndex)
 		}
 		if h265Stream != nil {
 			convertArgs = append(convertArgs, "-map", "0:"+h265TrackIndex)
@@ -116,6 +119,7 @@ var remuxCommand = cli.Command{
 				}
 			}
 			totalOutputStreams++
+			color.Printf("\t@{!y}%s:@{|} h265 -> @{!y}0:@{|} h264\n", h264TrackIndex)
 		}
 
 		// Prepare audio encoding arguments
@@ -132,8 +136,6 @@ var remuxCommand = cli.Command{
 
 			totalOutputStreams++
 
-			color.Println("@{!b}Output:")
-			color.Printf("\t@{!y}%s:@{|} h264 -> @{!y}0:@{|} copy\n", h264TrackIndex)
 			color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}1:@{|} aac\n", ac3TrackIndex)
 			color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}2:@{|} copy\n", ac3TrackIndex)
 
@@ -143,8 +145,6 @@ var remuxCommand = cli.Command{
 			convertArgs = append(convertArgs, "-metadata:s:a:0", "language=eng")
 			totalOutputStreams++
 
-			color.Println("@{!b}Output:")
-			color.Printf("\t@{!y}%s:@{|} h264 -> @{!y}0:@{|} copy\n", h264TrackIndex)
 			color.Printf("\t@{!y}%s:@{|} aac -> @{!y}1:@{|} copy\n", aacTrackIndex)
 		}
 
