@@ -82,7 +82,7 @@ func (f *File) H264Stream() *Stream {
   return nil
 }
 
-func (f *File) H265tream() *Stream {
+func (f *File) H265Stream() *Stream {
   for _, stream := range f.Streams {
     if stream.CodecName == "hevc" {
       return &stream
