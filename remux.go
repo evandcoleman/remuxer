@@ -119,7 +119,7 @@ var remuxCommand = cli.Command{
 				}
 			}
 			totalOutputStreams++
-			color.Printf("\t@{!y}%s:@{|} h265 -> @{!y}0:@{|} h264\n", h264TrackIndex)
+			color.Printf("\t@{!y}%s:@{|} hevc -> @{!y}0:@{|} h264\n", h264TrackIndex)
 		}
 
 		// Prepare audio encoding arguments
