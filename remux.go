@@ -69,30 +69,48 @@ var remuxCommand = cli.Command{
 		// Prepare the ffmpeg command arguments
 		var totalOutputStreams = 0
 		h264Stream := file.H264Stream()
+		h265Stream := file.H265Stream()
 		ac3Stream := file.AC3Stream()
 		aacStream := file.AACStream()
-		h264TrackIndex := strconv.FormatInt(h264Stream.Index, 10)
-		ac3TrackIndex := "0"
-		aacTrackIndex := "0"
-
+		
+		if h264Stream != nil {
+			h264TrackIndex := strconv.FormatInt(h264Stream.Index, 10)
+		}
+		if h265Stream != nil {
+			h265TrackIndex := strconv.FormatInt(h265Stream.Index, 10)
+		}
 		if ac3Stream != nil {
-			ac3TrackIndex = strconv.FormatInt(ac3Stream.Index, 10)
-			_ = ac3TrackIndex //Because go is stupid
+			ac3TrackIndex := strconv.FormatInt(ac3Stream.Index, 10)
 		}
 		if aacStream != nil{
-			aacTrackIndex = strconv.FormatInt(aacStream.Index, 10)
-			_ = aacTrackIndex //Because go is stupid
+			aacTrackIndex := strconv.FormatInt(aacStream.Index, 10)
 		}
 
 		convertArgs := []string{"ffmpeg", "-i", input}
-		convertArgs = append(convertArgs, "-map", "0:"+h264TrackIndex)
-		convertArgs = append(convertArgs, "-c:v", "copy")
-		if h264Stream.Tags != nil {
-			if h264Stream.Tags.Language != nil {
-				convertArgs = append(convertArgs, "-metadata:s:v:0", fmt.Sprintf("lang='%s'", *h264Stream.Tags.Language))
+		
+		// Prepare video encoding arguments
+		if h264Stream != nil {
+			convertArgs = append(convertArgs, "-map", "0:"+h264TrackIndex)
+			convertArgs = append(convertArgs, "-c:v", "copy")
+			if h264Stream.Tags != nil {
+				if h264Stream.Tags.Language != nil {
+					convertArgs = append(convertArgs, "-metadata:s:v:0", fmt.Sprintf("lang='%s'", *h264Stream.Tags.Language))
+				}
 			}
+			totalOutputStreams++
 		}
-		totalOutputStreams++
+		if h265Stream != nil {
+			convertArgs = append(convertArgs, "-map", "0:"+h265TrackIndex)
+			convertArgs = append(convertArgs, "-c:v", "libx264")
+			if h265Stream.Tags != nil {
+				if h265Stream.Tags.Language != nil {
+					convertArgs = append(convertArgs, "-metadata:s:v:0", fmt.Sprintf("lang='%s'", *h265Stream.Tags.Language))
+				}
+			}
+			totalOutputStreams++
+		}
+
+		// Prepare audio encoding arguments
 		if ac3Stream != nil {
 			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
 			convertArgs = append(convertArgs, "-c:a:0", "aac", "-ab", "160k", "-ac", "2", "-strict", "experimental")
