@@ -75,15 +75,19 @@ var remuxCommand = cli.Command{
 		
 		if h264Stream != nil {
 			h264TrackIndex := strconv.FormatInt(h264Stream.Index, 10)
+			_ = h264TrackIndex
 		}
 		if h265Stream != nil {
 			h265TrackIndex := strconv.FormatInt(h265Stream.Index, 10)
+			_ = h265TrackIndex
 		}
 		if ac3Stream != nil {
 			ac3TrackIndex := strconv.FormatInt(ac3Stream.Index, 10)
+			_ = ac3TrackIndex
 		}
 		if aacStream != nil{
 			aacTrackIndex := strconv.FormatInt(aacStream.Index, 10)
+			_ = aacTrackIndex
 		}
 
 		convertArgs := []string{"ffmpeg", "-i", input}
