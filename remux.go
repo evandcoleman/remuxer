@@ -96,7 +96,7 @@ var remuxCommand = cli.Command{
 
 		convertArgs := []string{"ffmpeg", "-i", input}
 		
-		color.println("@{!b}Output:")
+		color.Println("@{!b}Output:")
 
 		// Prepare video encoding arguments
 		if h264Stream != nil {
