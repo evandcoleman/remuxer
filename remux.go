@@ -79,7 +79,7 @@ var remuxCommand = cli.Command{
 		
 		if h264Stream != nil {
 			h264TrackIndex = strconv.FormatInt(h264Stream.Index, 10)
-			_ = h264TrackIndex
+			
 		}
 		if h265Stream != nil {
 			h265TrackIndex = strconv.FormatInt(h265Stream.Index, 10)
