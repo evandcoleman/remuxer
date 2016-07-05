@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/codegangsta/cli"
-	"github.com/edc1591/remuxer/models"
+	"github.com/urfave/cli"
+	"github.com/brettaweston/remuxer/models"
 	"github.com/wsxiaoys/terminal/color"
 )
 
@@ -51,7 +51,7 @@ var remuxCommand = cli.Command{
 		}
 		// Check file validity
 		if !file.IsValidMKV() {
-			log.Fatal("An MKV file with an x264 and AC3 stream is required.")
+			log.Fatal("An MKV file with an x264 stream is required.")
 		}
 
 		// Print file streams
@@ -69,56 +69,83 @@ var remuxCommand = cli.Command{
 		// Prepare the ffmpeg command arguments
 		var totalOutputStreams = 0
 		h264Stream := file.H264Stream()
+		h265Stream := file.H265Stream()
 		ac3Stream := file.AC3Stream()
-		h264TrackIndex := strconv.FormatInt(h264Stream.Index, 10)
-		ac3TrackIndex := strconv.FormatInt(ac3Stream.Index, 10)
+		aacStream := file.AACStream()
+		h264TrackIndex := "0"
+		h265TrackIndex := "0"
+		ac3TrackIndex := "0"
+		aacTrackIndex := "0"
+		
+		if h264Stream != nil {
+			h264TrackIndex = strconv.FormatInt(h264Stream.Index, 10)
+			_ = h264TrackIndex
+		}
+		if h265Stream != nil {
+			h265TrackIndex = strconv.FormatInt(h265Stream.Index, 10)
+			_ = h265TrackIndex
+		}
+		if ac3Stream != nil {
+			ac3TrackIndex = strconv.FormatInt(ac3Stream.Index, 10)
+			_ = ac3TrackIndex
+		}
+		if aacStream != nil{
+			aacTrackIndex = strconv.FormatInt(aacStream.Index, 10)
+			_ = aacTrackIndex
+		}
+
 		convertArgs := []string{"ffmpeg", "-i", input}
-		convertArgs = append(convertArgs, "-map", "0:"+h264TrackIndex)
-		convertArgs = append(convertArgs, "-c:v", "copy")
-		if h264Stream.Tags != nil {
-			if h264Stream.Tags.Language != nil {
-				convertArgs = append(convertArgs, "-metadata:s:v:0", fmt.Sprintf("lang='%s'", *h264Stream.Tags.Language))
-			}
-		}
-		totalOutputStreams++
-		convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
-		convertArgs = append(convertArgs, "-c:a:0", "aac", "-ab", "160k", "-ac", "2", "-strict", "experimental")
-		if ac3Stream.Tags != nil {
-			if ac3Stream.Tags.Language != nil {
-				convertArgs = append(convertArgs, "-metadata:s:a:1", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
-			}
-		}
-		totalOutputStreams++
-		convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
-		convertArgs = append(convertArgs, "-c:a:1", "copy")
-		if ac3Stream.Tags != nil {
-			if ac3Stream.Tags.Language != nil {
-				convertArgs = append(convertArgs, "-metadata:s:a:2", fmt.Sprintf("lang='%s'", *ac3Stream.Tags.Language))
-			}
-		}
-		totalOutputStreams++
-
+		
 		color.Println("@{!b}Output:")
-		color.Printf("\t@{!y}%s:@{|} h264 -> @{!y}0:@{|} copy\n", h264TrackIndex)
-		color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}1:@{|} aac\n", ac3TrackIndex)
-		color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}2:@{|} copy\n", ac3TrackIndex)
 
-		// Copy Vorbis streams
-		var audioStreamIndex = 2
-		for _, stream := range file.VorbisStreams() {
-			convertArgs = append(convertArgs, "-map", fmt.Sprintf("0:%d", stream.Index))
-			convertArgs = append(convertArgs, fmt.Sprintf("-c:a:%d", audioStreamIndex), "copy")
-			if stream.Tags != nil {
-				if stream.Tags.Language != nil {
-					convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:a:%d", audioStreamIndex), fmt.Sprintf("lang='%s'", *stream.Tags.Language))
-				}
-				if stream.Tags.Title != nil {
-					convertArgs = append(convertArgs, fmt.Sprintf("-metadata:s:a:%d", audioStreamIndex), fmt.Sprintf("title='%s'", *stream.Tags.Title))
+		// Prepare video encoding arguments
+		if h264Stream != nil {
+			convertArgs = append(convertArgs, "-map", "0:"+h264TrackIndex)
+			convertArgs = append(convertArgs, "-c:v", "copy")
+			if h264Stream.Tags != nil {
+				if h264Stream.Tags.Language != nil {
+					convertArgs = append(convertArgs, "-metadata:s:v:0", fmt.Sprintf("lang='%s'", *h264Stream.Tags.Language))
 				}
 			}
-			color.Printf("\t@{!y}%d:@{|} %s -> @{!y}%d:@{|} copy\n", stream.Index, stream.CodecName, totalOutputStreams)
-			audioStreamIndex++
 			totalOutputStreams++
+			color.Printf("\t@{!y}%s:@{|} h264 -> @{!y}0:@{|} copy\n", h264TrackIndex)
+		}
+		if h265Stream != nil {
+			convertArgs = append(convertArgs, "-map", "0:"+h265TrackIndex)
+			convertArgs = append(convertArgs, "-c:v", "libx264")
+			if h265Stream.Tags != nil {
+				if h265Stream.Tags.Language != nil {
+					convertArgs = append(convertArgs, "-metadata:s:v:0", fmt.Sprintf("lang='%s'", *h265Stream.Tags.Language))
+				}
+			}
+			totalOutputStreams++
+			color.Printf("\t@{!y}%s:@{|} hevc -> @{!y}0:@{|} h264\n", h264TrackIndex)
+		}
+
+		// Prepare audio encoding arguments
+		if ac3Stream != nil {
+			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
+			convertArgs = append(convertArgs, "-c:a:0", "aac", "-ab", "160k", "-ac", "2", "-strict", "experimental")
+			convertArgs = append(convertArgs, "-metadata:s:a:0", "language=eng")
+
+			totalOutputStreams++
+			convertArgs = append(convertArgs, "-map", "0:"+ac3TrackIndex)
+			convertArgs = append(convertArgs, "-c:a:1", "copy")
+			convertArgs = append(convertArgs, "-metadata:s:a:1", "language=eng")
+			convertArgs = append(convertArgs, "-disposition:a:1", "none")
+
+			totalOutputStreams++
+
+			color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}1:@{|} aac\n", ac3TrackIndex)
+			color.Printf("\t@{!y}%s:@{|} ac3 -> @{!y}2:@{|} copy\n", ac3TrackIndex)
+
+		} else {
+			convertArgs = append(convertArgs, "-map", "0:"+aacTrackIndex)
+			convertArgs = append(convertArgs, "-c:a:0", "copy")
+			convertArgs = append(convertArgs, "-metadata:s:a:0", "language=eng")
+			totalOutputStreams++
+
+			color.Printf("\t@{!y}%s:@{|} aac -> @{!y}1:@{|} copy\n", aacTrackIndex)
 		}
 
 		// Copy subtitle streams

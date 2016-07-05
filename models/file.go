@@ -6,10 +6,14 @@ type VideoFile interface {
   IsValidMKV() bool
   IsMKV() bool
   HasH264Stream() bool
+  HasH265Stream() bool
   HasAC3Stream() bool
+  HasAACStream() bool
 
   H264Stream() *Stream
+  H265Stream() *Stream
   AC3Stream() *Stream
+  AACStream() *Stream
 
   SubtitleStreams() []Stream
   VorbisStreams() []Stream
@@ -23,7 +27,7 @@ type File struct {
 }
 
 func (f *File) IsValidMKV() bool {
-  return f.IsMKV() && f.HasH264Stream() && f.HasAC3Stream()
+  return f.IsMKV()
 }
 
 func (f *File) IsMKV() bool {
@@ -42,9 +46,27 @@ func (f *File) HasH264Stream() bool {
   return false
 }
 
+func (f *File) HasH265Stream() bool {
+  for _, stream := range f.Streams {
+    if stream.CodecName == "hevc" {
+      return true
+    }
+  }
+  return false
+}
+
 func (f *File) HasAC3Stream() bool {
   for _, stream := range f.Streams {
     if stream.CodecName == "ac3" {
+      return true
+    }
+  }
+  return false
+}
+
+func (f *File) HasAACStream() bool {
+  for _, stream := range f.Streams {
+    if stream.CodecName == "aac" {
       return true
     }
   }
@@ -60,9 +82,27 @@ func (f *File) H264Stream() *Stream {
   return nil
 }
 
+func (f *File) H265Stream() *Stream {
+  for _, stream := range f.Streams {
+    if stream.CodecName == "hevc" {
+      return &stream
+    }
+  }
+  return nil
+}
+
 func (f *File) AC3Stream() *Stream {
   for _, stream := range f.Streams {
     if stream.CodecName == "ac3" {
+      return &stream
+    }
+  }
+  return nil
+}
+
+func (f *File) AACStream() *Stream {
+  for _, stream := range f.Streams {
+    if stream.CodecName == "aac" {
       return &stream
     }
   }
