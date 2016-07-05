@@ -5,8 +5,6 @@ Remuxer will take an x264/ac3 MKV file and output an mp4 file with the same stre
 
 If `Dolby Digital Out` is enabled on the Apple TV, the 5.1 ac3 track will passthrough to your receiver.
 
-The old Objective-C version can be found in the `ec-legacy` branch.
-
 # Installation
 
     $ brew install ffmpeg --with-fdk-aac --with-ffplay --with-freetype --with-libass --with-libquvi --with-libvorbis --with-libvpx --with-opus --with-x265
